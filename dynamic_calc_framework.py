@@ -87,46 +87,5 @@ class CalcFramework(DynamicModel):
         # total runoff within the catchment 
         self.total_runoff_within_the_catchment =  
         
-        cropKC = {}
-        for lc_type in ["forest", "grassland", "irrPaddy", "irrNonPaddy"]:
-            cropKC[lc_type] = vos.netcdf2PCRobjClone(\
-                                  self.input_files['cropKC'][lc_type], \
-                                  self.input_files['cropKC']['variable_name'], \
-                                  str(self.modelTime.fulldate), 
-                                  useDoy = None,
-                                  cloneMapFileName = self.cloneMapFileName)
-               
-        # calculate
-        potential_evaporation = {}
-        for lc_type in ["forest", "grassland", "irrPaddy", "irrNonPaddy"]:
-            potential_evaporation[lc_type] = referencePotET * cropKC[lc_type]
+        # write it to a txt file
         
-        # reporting for daily values
-        timeStamp = datetime.datetime(self.modelTime.year,\
-                                      self.modelTime.month,\
-                                      self.modelTime.day,0)
-        for lc_type in ["forest", "grassland", "irrPaddy", "irrNonPaddy"]:
-            file_name = self.output['folder'] + "/daily_potential_evaporation_" + self.variable_unit + "_" + lc_type + ".nc"
-            self.netcdf_report.data2NetCDF(file_name,\
-                                           self.variable_name,\
-                                           pcr.pcr2numpy(potential_evaporation[lc_type], vos.MV),\
-                                           timeStamp)
-
-        # reporting for monthly values
-        # - reset at the beginning of the month:
-        if self.modelTime.isFirstDayOfMonth:
-            for lc_type in ["forest", "grassland", "irrPaddy", "irrNonPaddy"]:
-                self.monthly_accumulator[lc_type] = pcr.scalar(0.0)
-        # - accumulate until the last day of the month:
-        for lc_type in ["forest", "grassland", "irrPaddy", "irrNonPaddy"]:
-            self.monthly_accumulator[lc_type] = self.monthly_accumulator[lc_type] + potential_evaporation[lc_type]
-        if self.modelTime.endMonth:
-            for lc_type in ["forest", "grassland", "irrPaddy", "irrNonPaddy"]:
-                file_name = self.output['folder'] + "/monthly_potential_evaporation_" + self.variable_unit + "_" + lc_type + ".nc"
-                
-                print file_name
-                
-                self.netcdf_report.data2NetCDF(file_name,\
-                                               self.variable_name,\
-                                               pcr.pcr2numpy(self.monthly_accumulator[lc_type]/calendar.monthrange(self.modelTime.year, self.modelTime.month)[1], vos.MV),\
-                                               timeStamp)
