@@ -3,6 +3,7 @@
 
 import os
 import sys
+import shutil
 
 # pcraster dynamic framework is used.
 from pcraster.framework import DynamicFramework
@@ -19,63 +20,62 @@ import virtualOS as vos
 import logging
 logger = logging.getLogger(__name__)
 
-# file name of the clone map defining the scope of output
-cloneMapFileName = "/scratch/chinmay/IGB_Data/clone_and_landmask_IGB/clone_igbmntb.map"
+
+# output
+output_files = {}
+output_files['folder']          = "/scratch/edwin/tmp_test_for_nils/"
+output_files['output_txt_file'] = output_files['folder'] + "003303.txt"
 
 # input
 input_files = {}
-input_files['referencePotET']                  = {}
-input_files['referencePotET']['file_name']     = "/data/hydroworld/forcing/CRU-TS3.21/merged_1958_to_2010/CRU-TS3.21_ERA-40_ERA-Interim_daily_referencePotET_1958_to_2010.nc"
-input_files['referencePotET']['variable_name'] = "referencePotET"
-input_files['cropKC'] = {}           
-input_files['cropKC']['variable_name'] = "kc"
-input_files['cropKC']['forest']        = "/storagetemp/chinmay/test/newextent_lai_05.04.2016/forest_newextent_crop_factors.nc"
-input_files['cropKC']['grassland']     = "/storagetemp/chinmay/test/newextent_lai_05.04.2016/grassland_newextent_crop_factors.nc"
-input_files['cropKC']['irrPaddy']      = "/storagetemp/chinmay/test/newextent_lai_05.04.2016/paddy_newextent_crop_factors.nc"
-input_files['cropKC']['irrNonPaddy']   = "/storagetemp/chinmay/test/newextent_lai_05.04.2016/nonpaddy_newextent_crop_factors.nc"
+input_files["folder"]                         = "/scratch/edwin/test_for_nisl/data_from_nils/"
+input_files["tif_catchment_file"]             = input_files["folder"] + "stID_003303.tif"
+input_files["xls_obs_runoff_file"]            = input_files["folder"] + "stID_003303.tif"
+# general input data                          
+input_files["netcdf_runoff"]                  = {}
+input_files["netcdf_runoff"]["file_name"]     = "general_data/" + "e2o_univu_wrr1_glob30_day_Runoff_1979.nc"    # unit: kg m-2 s-1
+input_files["netcdf_runoff"]["variable_name"] = "Runoff"
+input_files["cellarea_0.05deg_file"]          = "general_data/" + "australia_cellsize0.05deg.map"	            # unit: m2 
 
-# output
-output = {}
-output['folder']            = "/scratch/edwin/tmp/"
-output['netcdf_format']     = "NETCDF3_CLASSIC"
-output['netcdf_attributes'] = {}
-output['netcdf_attributes']['institution']  = "Department of Physical Geography, Utrecht University"
-output['netcdf_attributes']['title'      ]  = "Potential evaporation estimates  "
-output['netcdf_attributes']['source'     ]  = "None"
-output['netcdf_attributes']['history'    ]  = "None"
-output['netcdf_attributes']['references' ]  = "None"
-output['netcdf_attributes']['comment'    ]  = "None"
+# start and end dates (from netcdf files)
+startDate     = "1979-01-01"
+endDate       = "2012-12-31" 
 
-# prepare the output directory
+# general data:
+general_data = {}
+general_data[] = 
+
+
+# prepare output folder
 try:
     os.makedirs(output['folder'])
 except:
-    os.system('rm -r ' + output['folder'])
+    os.remove(output['folder'])
     pass
 
-startDate     = "2001-01-01" # YYYY-MM-DD
-endDate       = "2007-12-31" 
+# temporary output folder:
+output_files['tmp_output_folder'] = output_files['folder'] + "/tmp"
+try:
+    os.makedirs(output_files['tmp_output_folder'])
+except:
+    os.remove(output_files['tmp_output_folder'])
+    pass
+
+# 3. open netcdf file
+
 
 ###########################################################################################################
 
 def main():
     
-    # prepare logger and its directory
-    log_file_location = output['folder'] + "/log/"
-    try:
-        os.makedirs(log_file_location)
-    except:
-        pass
-    vos.initialize_logging(log_file_location)
-    
     # time object
     modelTime = ModelTime() # timeStep info: year, month, day, doy, hour, etc
     modelTime.getStartEndTimeSteps(startDate, endDate)
     
-    calculationModel = CalcFramework(cloneMapFileName,\
+    # modeling framework
+    calculationModel = CalcFramework(modelTime,\
                                      input_files, \
-                                     modelTime, \
-                                     output)
+                                     output_files)
 
     dynamic_framework = DynamicFramework(calculationModel, modelTime.nrOfTimeSteps)
     dynamic_framework.setQuiet(True)
