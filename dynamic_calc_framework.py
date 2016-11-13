@@ -56,6 +56,8 @@ class CalcFramework(DynamicModel):
         catchment_area_map  = pcr.ifthen(self.landmask, self.cell_area)
         self.catchment_area = vos.getMapTotal(catchment_area_map)       # unit: m2
         
+        print self.catchment_area
+        
         # time variable/object
         self.modelTime = modelTime
         
@@ -72,6 +74,8 @@ class CalcFramework(DynamicModel):
         # runoff (from netcdf files, unit: kg m-2 s-1)
         
         print self.input_files["netcdf_runoff"]["file_name"]
+        print self.input_files["netcdf_runoff"]['variable_name']
+        
         
         self.runoff = vos.netcdf2PCRobjClone(self.input_files["netcdf_runoff"]["file_name"], \
                                              self.input_files["netcdf_runoff"]['variable_name'], \
