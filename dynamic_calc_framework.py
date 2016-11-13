@@ -51,7 +51,7 @@ class CalcFramework(DynamicModel):
         cmd = 'rm -r tmp.tif'
         
         # calculate catchment area (m2)
-        self.cell_area      = vos.readPCRmapClone(self.input_files['cellarea_0.05deg_file'], clone_map_file, tmp_output_folder)
+        self.cell_area      = vos.readPCRmapClone(self.input_files['cellarea_0.05deg_file'], self.clone_map_file, tmp_output_folder)
         catchment_area_map  = pcr.maptotal(pcr.ifthen(self.landmask, self.cell_area))
         self.catchment_area = float(pcr.cellvalue(catchment_area_map, 1))     # unit: m2
         
