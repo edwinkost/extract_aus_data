@@ -201,27 +201,15 @@ def netcdf2PCRobjClone(ncFile,varName,dateInput,\
         f = filecache[ncFile]
         #~ print "Cached: ", ncFile
     else:
-        f = nc.Dataset(ncFile, a)
+        f = nc.Dataset(ncFile)
         filecache[ncFile] = f
         #~ print "New: ", ncFile
     
     varName = str(varName)
  
- 
-    if LatitudeLongitude == True:
-        try:
-            f.variables['lat'] = f.variables['latitude']
-            f.variables['lon'] = f.variables['longitude']
-        except:
-            pass
+    lat = f.variables['lat'][:]
+    lon = f.variables['lon'][:]
     
-    if varName == "evapotranspiration":        
-        try:
-            f.variables['evapotranspiration'] = f.variables['referencePotET']
-        except:
-            pass
-
-
     # date
     date = dateInput
     if useDoy == "Yes": 
@@ -284,12 +272,9 @@ def netcdf2PCRobjClone(ncFile,varName,dateInput,\
 
     # check the orientation of the latitude and flip it if necessary
     we_have_to_flip = False
-    #~ print f.variables['lat']
-    if (f.variables['lat'][0] < f.variables['lat'][1]): 
+    if (lat[0] < lat[1]): 
         we_have_to_flip = True
-        f.variables['lat'][:] = f.variables['lat'][::-1]
-
-    #~ print f.variables['lat']
+        lat[:] = lat[::-1]
 
     sameClone = True
     # check whether clone and input maps have the same attributes:
@@ -302,12 +287,12 @@ def netcdf2PCRobjClone(ncFile,varName,dateInput,\
         xULClone = attributeClone['xUL']
         yULClone = attributeClone['yUL']
         # get the attributes of input (netCDF) 
-        cellsizeInput = f.variables['lat'][0]- f.variables['lat'][1]
+        cellsizeInput = lat[0]- lat[1]
         cellsizeInput = float(cellsizeInput)
-        rowsInput = len(f.variables['lat'])
-        colsInput = len(f.variables['lon'])
-        xULInput = f.variables['lon'][0]-0.5*cellsizeInput
-        yULInput = f.variables['lat'][0]+0.5*cellsizeInput
+        rowsInput = len(lat)
+        colsInput = len(lon)
+        xULInput = lon[0] - 0.5*cellsizeInput
+        yULInput = lat[0] + 0.5*cellsizeInput
         # check whether both maps have the same attributes 
         if cellsizeClone != cellsizeInput: sameClone = False
         if rowsClone != rowsInput: sameClone = False
@@ -319,7 +304,7 @@ def netcdf2PCRobjClone(ncFile,varName,dateInput,\
     factor = 1                          # needed in regridData2FinerGrid
 
     # flip if necessary 
-    if we_have_to_flip: cropData = np.fliplr(cropData[:,:])
+    if we_have_to_flip: cropData[:,:] = cropData[::-1,:]
 
     if sameClone == False:
         
@@ -328,13 +313,11 @@ def netcdf2PCRobjClone(ncFile,varName,dateInput,\
         print('Crop to the clone map with lower left corner (x,y): '+str(xULClone)+' , '+str(yULClone))
 
         # crop to cloneMap:
-        #~ xIdxSta = int(np.where(f.variables['lon'][:] == xULClone + 0.5*cellsizeInput)[0])
-        minX    = min(abs(f.variables['lon'][:] - (xULClone + 0.5*cellsizeInput))) # ; print(minX)
-        xIdxSta = int(np.where(abs(f.variables['lon'][:] - (xULClone + 0.5*cellsizeInput)) == minX)[0])
+        minX    = min(abs(lon[:] - (xULClone + 0.5*cellsizeInput))) # ; print(minX)
+        xIdxSta = int(np.where(abs(lon[:] - (xULClone + 0.5*cellsizeInput)) == minX)[0])
         xIdxEnd = int(math.ceil(xIdxSta + colsClone /(cellsizeInput/cellsizeClone)))
-        #~ yIdxSta = int(np.where(f.variables['lat'][:] == yULClone - 0.5*cellsizeInput)[0])
-        minY    = min(abs(f.variables['lat'][:] - (yULClone - 0.5*cellsizeInput))) # ; print(minY)
-        yIdxSta = int(np.where(abs(f.variables['lat'][:] - (yULClone - 0.5*cellsizeInput)) == minY)[0])
+        minY    = min(abs(lat][:] - (yULClone - 0.5*cellsizeInput))) # ; print(minY)
+        yIdxSta = int(np.where(abs(lat][:] - (yULClone - 0.5*cellsizeInput)) == minY)[0])
         yIdxEnd = int(math.ceil(yIdxSta + rowsClone /(cellsizeInput/cellsizeClone)))
         cropData = f.variables[varName][idx,yIdxSta:yIdxEnd,xIdxSta:xIdxEnd]
 
