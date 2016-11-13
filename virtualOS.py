@@ -207,6 +207,8 @@ def netcdf2PCRobjClone(ncFile,varName,dateInput,\
     
     varName = str(varName)
     
+    print varName
+    
     if LatitudeLongitude == True:
         try:
             f.variables['lat'] = f.variables['latitude']
