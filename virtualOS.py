@@ -326,6 +326,8 @@ def netcdf2PCRobjClone(ncFile,varName,dateInput,\
         factor = int(round(float(cellsizeInput)/float(cellsizeClone)))
         if factor > 1: logger.debug('Resample: input cell size = '+str(float(cellsizeInput))+' ; output/clone cell size = '+str(float(cellsizeClone)))
 
+    print factor
+    
     # convert to PCR object and close f
     if specificFillValue != None:
         outPCR = pcr.numpy2pcr(pcr.Scalar, \
