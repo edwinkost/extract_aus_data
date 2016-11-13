@@ -45,7 +45,7 @@ endDate       = "2012-12-31"
 try:
     os.makedirs(output_files['folder'])
 except:
-    os.remove(output_files['folder'])
+    shutil.rmtree(output_files['folder'])
     pass
 
 # temporary output folder:
