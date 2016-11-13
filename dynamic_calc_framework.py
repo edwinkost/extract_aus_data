@@ -92,9 +92,9 @@ class CalcFramework(DynamicModel):
         
         print self.runoff
         
-        pcr.report(self.runoff, "tmp1.map")
-        cmd = 'aguila tmp1.map'
-        os.system(cmd)
+        #~ pcr.report(self.runoff, "tmp1.map")
+        #~ cmd = 'aguila tmp1.map'
+        #~ os.system(cmd)
         
         # convert runoff to m3/day
         self.runoff = self.runoff * 1000. * self.cell_area * 86400.
