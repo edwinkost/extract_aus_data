@@ -41,11 +41,6 @@ input_files["cellarea_0.05deg_file"]          = "general_data/" + "australia_cel
 startDate     = "1979-01-01"
 endDate       = "2012-12-31" 
 
-# general data:
-general_data = {}
-general_data[] = 
-
-
 # prepare output folder
 try:
     os.makedirs(output['folder'])
