@@ -69,11 +69,6 @@ class CalcFramework(DynamicModel):
         # re-calculate current model time using current pcraster timestep value
         self.modelTime.update(self.currentTimeStep())
 
-        input_files["netcdf_runoff"]                  = {}
-        input_files["netcdf_runoff"]["file_name"]     = "general_data/" + "e2o_univu_wrr1_glob30_day_Runoff_1979.nc"    # unit: kg m-2 s-1
-        input_files["netcdf_runoff"]["variable_name"] = "Runoff"
-        input_files["cellarea_0.05deg_file"]          = "general_data/" + "australia_cellsize0.05deg.map"	            # unit: m2 
-        
         # runoff (from netcdf files, unit: kg m-2 s-1)
         self.runoff = vos.netcdf2PCRobjClone(self.input_files["netcdf_runoff"]["file_name"], \
                                              self.input_files["netcdf_runoff"]['variable_name'], \
