@@ -26,9 +26,9 @@ class CalcFramework(DynamicModel):
         self.input_files  = input_files
         self.output_files = output_files
         
-        # use temporary folder as the working folder
-        tmp_output_folder = self.output_files['tmp_output_folder']
-        os.chdir(output_files['tmp_output_folder'])
+        #~ # use temporary folder as the working folder
+        #~ tmp_output_folder = self.output_files['tmp_output_folder']
+        #~ os.chdir(output_files['tmp_output_folder'])
         
         # set the clone map and set the catchment area
         # - resample tif to the extent of Australia region  
