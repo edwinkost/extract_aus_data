@@ -44,14 +44,15 @@ class CalcFramework(DynamicModel):
         # - set it as the clone and set it as the catchment map
         self.clone_map_file = "catchment.map"
         pcr.setclone(self.clone_map_file)
-        # - and set it as the catchment map
+        # - and set it as the catchment and landmask maps
         self.catchment = pcr.readmap("catchment.map")
+        self.landmask  = pcr.defined(self.catchment)
         # - remove tif file
         cmd = 'rm -r tmp.tif'
         
         # calculate catchment area (m2)
         self.cell_area      = vos.readPCRmapClone(self.input_files['cellarea_0.05deg_file'], clone_map_file, tmp_output_folder)
-        catchment_area_map  = pcr.areatotal(cell_area, catchment)
+        catchment_area_map  = pcr.maptotal(pcr.ifthen(self.landmask, self.cell_area))
         self.catchment_area = float(pcr.cellvalue(catchment_area_map, 1))     # unit: m2
         
         # time variable/object
@@ -79,13 +80,13 @@ class CalcFramework(DynamicModel):
                                              useDoy = None, \
                                              cloneMapFileName = self.cloneMapFileName)
         # - use runoff value only within the catchment 
-        
+        self.runoff = pcr.ifthen(self.landmask, self.runoff)
         
         # convert runoff to m3/day
-                                             
+        self.runoff = self.runoff * 1000. * self.cell_area * 86400.
         
-        # total runoff within the catchment 
-        self.total_runoff_within_the_catchment =  
+        # average runoff (mm/day) within the catchment 
+        average_runoff_within_the_catchment =  vos.getMapTotal(self.runoff) / (1000. * self.catchment_area)
         
         # write it to a txt file
-        
+        print average_runoff_within_the_catchment
