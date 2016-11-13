@@ -201,7 +201,7 @@ def netcdf2PCRobjClone(ncFile,varName,dateInput,\
         f = filecache[ncFile]
         #~ print "Cached: ", ncFile
     else:
-        f = nc.Dataset(ncFile)
+        f = nc.Dataset(ncFile, a)
         filecache[ncFile] = f
         #~ print "New: ", ncFile
     
