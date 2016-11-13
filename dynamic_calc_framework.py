@@ -96,3 +96,5 @@ class CalcFramework(DynamicModel):
         
         # write it to a txt file
         print average_runoff_within_the_catchment
+        print average_runoff_within_the_catchment
+        print average_runoff_within_the_catchment
