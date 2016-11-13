@@ -319,7 +319,7 @@ def netcdf2PCRobjClone(ncFile,varName,dateInput,\
     factor = 1                          # needed in regridData2FinerGrid
 
     # flip if necessary 
-    if we_have_to_flip: cropData = np.flipud(cropData[:,:])
+    if we_have_to_flip: cropData = np.fliplr(cropData[:,:])
 
     if sameClone == False:
         
