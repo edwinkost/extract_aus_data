@@ -33,9 +33,9 @@ input_files["tif_catchment_file"]             = input_files["folder"] + "stID_00
 input_files["xls_obs_runoff_file"]            = input_files["folder"] + "stID_003303.tif"
 # general input data                          
 input_files["netcdf_runoff"]                  = {}
-input_files["netcdf_runoff"]["file_name"]     = "/scratch/edwin/test_for_nils/general_data/" + "e2o_univu_wrr1_glob30_day_Runoff_1979.nc"    # unit: kg m-2 s-1
+input_files["netcdf_runoff"]["file_name"]     = "/scratch/edwin/test_for_nils/general_data/" + "e2o_univu_wrr1_glob30_day_Runoff_1979_setgrid.nc"    # unit: kg m-2 s-1
 input_files["netcdf_runoff"]["variable_name"] = "Runoff"
-input_files["cellarea_0.05deg_file"]          = "/scratch/edwin/test_for_nils/general_data/" + "australia_cellsize0.05deg.map"	             # unit: m2 
+input_files["cellarea_0.05deg_file"]          = "/scratch/edwin/test_for_nils/general_data/" + "australia_cellsize0.05deg.map"	                     # unit: m2 
 
 # start and end dates (from netcdf files)
 startDate     = "1979-01-01"
