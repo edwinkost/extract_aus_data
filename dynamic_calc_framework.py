@@ -88,7 +88,7 @@ class CalcFramework(DynamicModel):
         # - use runoff value only within the catchment 
         self.runoff = pcr.ifthen(self.landmask, self.runoff)
         
-        pcr.report("tmp.map", self.runoff)
+        pcr.report(self.runoff, "tmp.map")
         cmd = 'aguila tmp.map'
         os.system(cmd)
         
