@@ -74,7 +74,7 @@ class CalcFramework(DynamicModel):
                                              self.input_files["netcdf_runoff"]['variable_name'], \
                                              str(self.modelTime.fulldate), \
                                              useDoy = None, \
-                                             cloneMapFileName = self.cloneMapFileName)
+                                             cloneMapFileName = self.clone_map_file)
         # - use runoff value only within the catchment 
         self.runoff = pcr.ifthen(self.landmask, self.runoff)
         
