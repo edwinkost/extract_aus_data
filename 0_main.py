@@ -43,9 +43,9 @@ endDate       = "2012-12-31"
 
 # prepare output folder
 try:
-    os.makedirs(output['folder'])
+    os.makedirs(output_files['folder'])
 except:
-    os.remove(output['folder'])
+    os.remove(output_files['folder'])
     pass
 
 # temporary output folder:
