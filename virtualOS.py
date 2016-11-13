@@ -286,7 +286,7 @@ def netcdf2PCRobjClone(ncFile,varName,dateInput,\
     we_have_to_flip = False
     if (f.variables['lat'][0] < f.variables['lat'][1]): 
         we_have_to_flip = True
-        f.variables['lat'] = np.fliplr(f.variables['lat'])
+        f.variables['lat'] = f.variables['lat'][::-1]
 
     sameClone = True
     # check whether clone and input maps have the same attributes:
