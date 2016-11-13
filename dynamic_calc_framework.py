@@ -33,7 +33,7 @@ class CalcFramework(DynamicModel):
         # set the clone map and set the catchment area
         # - resample tif to the extent of Australia region  
         input_tif_file    = self.input_files["tif_catchment_file"]
-        cmd = 'gdalwaro -te 122 -44 155 -10 ' + input_tif_file + " tmp.tif" 
+        cmd = 'gdalwarp -te 122 -44 155 -10 ' + input_tif_file + " tmp.tif" 
         print(cmd); os.system(cmd)
         # - convert to a pcraster map 
         cmd = 'pcrcalc catchment.map = "nominal(tmp.tif)"'
