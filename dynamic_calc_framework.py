@@ -87,6 +87,7 @@ class CalcFramework(DynamicModel):
                                              cloneMapFileName = self.clone_map_file)
         # - use runoff value only within the catchment 
         self.runoff = pcr.ifthen(self.landmask, self.runoff)
+        pcr.aguila(self.runoff)
         
         # convert runoff to m3/day
         self.runoff = self.runoff * 1000. * self.cell_area * 86400.
