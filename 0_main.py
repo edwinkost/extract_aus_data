@@ -28,7 +28,7 @@ output_files['output_txt_file'] = output_files['folder'] + "003303.txt"
 
 # input
 input_files = {}
-input_files["folder"]                         = "/scratch/edwin/test_for_nisl/data_from_nils/"
+input_files["folder"]                         = "/scratch/edwin/test_for_nils/data_from_nils/"
 input_files["tif_catchment_file"]             = input_files["folder"] + "stID_003303.tif"
 input_files["xls_obs_runoff_file"]            = input_files["folder"] + "stID_003303.tif"
 # general input data                          
