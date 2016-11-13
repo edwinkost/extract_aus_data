@@ -23,21 +23,26 @@ logger = logging.getLogger(__name__)
 
 # output
 output_files = {}
+# - output folder where you will store your output file
 output_files['folder']          = "/scratch/edwin/tmp_test_for_nils/"
+# - name of output file (txt file)
 output_files['output_txt_file'] = output_files['folder'] + "003303.txt"
 
 # input
 input_files = {}
+# - input folder where you store tif file 
 input_files["folder"]                         = "/scratch/edwin/test_for_nils/data_from_nils/"
 input_files["tif_catchment_file"]             = input_files["folder"] + "stID_003303.tif"
-input_files["xls_obs_runoff_file"]            = input_files["folder"] + "stID_003303.tif"
+
 # general input data                          
 input_files["netcdf_runoff"]                  = {}
-input_files["netcdf_runoff"]["file_name"]     = "/scratch/edwin/test_for_nils/general_data/" + "e2o_univu_wrr1_glob30_day_Runoff_1979.nc"    # unit: kg m-2 s-1
+# - netcdf input file for runoff
+input_files["netcdf_runoff"]["file_name"]     = "/scratch/edwin/test_for_nils/general_data/e2o_univu_wrr1_glob30_day_Runoff_1979.nc"    # unit: kg m-2 s-1
 input_files["netcdf_runoff"]["variable_name"] = "Runoff"
-input_files["cellarea_0.05deg_file"]          = "/scratch/edwin/test_for_nils/general_data/" + "australia_cellsize0.05deg.map"	                       # unit: m2 
+# - cell area (unit: m2) for every 0.05 arc-degree
+input_files["cellarea_0.05deg_file"]          = "/scratch/edwin/test_for_nils/general_data/australia_cellsize0.05deg.map"	            # unit: m2 
 
-# start and end dates (from netcdf files)
+# start and end dates (based on input netcdf files)
 startDate     = "1979-01-01"
 endDate       = "2012-12-31" 
 
@@ -55,9 +60,6 @@ try:
 except:
     os.remove(output_files['tmp_output_folder'])
     pass
-
-# 3. open netcdf file
-
 
 ###########################################################################################################
 
