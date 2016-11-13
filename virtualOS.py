@@ -312,6 +312,9 @@ def netcdf2PCRobjClone(ncFile,varName,dateInput,\
     if sameClone == False:
         
         logger.debug('Crop to the clone map with lower left corner (x,y): '+str(xULClone)+' , '+str(yULClone))
+
+        print('Crop to the clone map with lower left corner (x,y): '+str(xULClone)+' , '+str(yULClone))
+
         # crop to cloneMap:
         #~ xIdxSta = int(np.where(f.variables['lon'][:] == xULClone + 0.5*cellsizeInput)[0])
         minX    = min(abs(f.variables['lon'][:] - (xULClone + 0.5*cellsizeInput))) # ; print(minX)
