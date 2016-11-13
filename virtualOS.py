@@ -287,7 +287,7 @@ def netcdf2PCRobjClone(ncFile,varName,dateInput,\
     #~ print f.variables['lat']
     if (f.variables['lat'][0] < f.variables['lat'][1]): 
         we_have_to_flip = True
-        f.variables['lat'] = f.variables['lat'][::-1]
+        f.variables['lat'][:] = f.variables['lat'][::-1]
 
     #~ print f.variables['lat']
 
