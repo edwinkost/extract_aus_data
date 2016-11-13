@@ -70,6 +70,9 @@ class CalcFramework(DynamicModel):
         self.modelTime.update(self.currentTimeStep())
 
         # runoff (from netcdf files, unit: kg m-2 s-1)
+        
+        print self.input_files["netcdf_runoff"]["file_name"]
+        
         self.runoff = vos.netcdf2PCRobjClone(self.input_files["netcdf_runoff"]["file_name"], \
                                              self.input_files["netcdf_runoff"]['variable_name'], \
                                              str(self.modelTime.fulldate), \
