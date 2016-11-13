@@ -752,6 +752,9 @@ def isLastDayOfMonth(date):
 def getMapAttributesALL(cloneMap,arcDegree=True):
     cOut,err = subprocess.Popen(str('mapattr -p %s ' %(cloneMap)), stdout=subprocess.PIPE,stderr=open(os.devnull),shell=True).communicate()
 
+    cmd = str('mapattr -p %s ' %(cloneMap))
+    print cmd
+    
     if err !=None or cOut == []:
         print "Something wrong with mattattr in virtualOS, maybe clone Map does not exist ? "
         sys.exit()
