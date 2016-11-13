@@ -45,8 +45,8 @@ class CalcFramework(DynamicModel):
         cmd = 'cp catchment.map ' + self.output_files['folder'] 
         print(cmd); os.system(cmd)
         # - set it as the clone and set it as the catchment map
-        self.clone_map_file = "catchment.map"
-        pcr.setclone(self.output_files['folder']  + "/" + self.clone_map_file)
+        self.clone_map_file = self.output_files['folder']  + "/" + "catchment.map"
+        pcr.setclone( self.clone_map_file)
         # - and set it as the catchment and landmask maps
         self.catchment = pcr.readmap("catchment.map")
         self.landmask  = pcr.defined(self.catchment)
