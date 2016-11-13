@@ -90,7 +90,7 @@ class CalcFramework(DynamicModel):
         
         print self.runoff
         
-        pcr.report(self.runoff, "tmp.map")
+        pcr.report("tmp.map", self.runoff)
         cmd = 'aguila tmp.map'
         os.system(cmd)
         
