@@ -57,7 +57,7 @@ class CalcFramework(DynamicModel):
         print self.input_files['cellarea_0.05deg_file']
         self.cell_area      = vos.readPCRmapClone(self.input_files['cellarea_0.05deg_file'], self.clone_map_file, tmp_output_folder)
         catchment_area_map  = pcr.ifthen(self.landmask, self.cell_area)
-        pcr.aguila(catchment_area_map)
+        #~ pcr.aguila(catchment_area_map)
         self.catchment_area = vos.getMapTotal(catchment_area_map)       # unit: m2
         
         
@@ -96,8 +96,8 @@ class CalcFramework(DynamicModel):
         #~ cmd = 'aguila tmp1.map'
         #~ os.system(cmd)
         
-        # convert runoff to m3/day
-        self.runoff = self.runoff * 1000. * self.cell_area * 86400.
+        # convert runoff to m3/day and direction 
+        self.runoff = self.runoff * 1000. * self.cell_area * 86400. * -1.0
         
         # average runoff (mm/day) within the catchment 
         average_runoff_within_the_catchment =  vos.getMapTotal(self.runoff) / (1000. * self.catchment_area)
