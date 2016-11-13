@@ -206,9 +206,8 @@ def netcdf2PCRobjClone(ncFile,varName,dateInput,\
         #~ print "New: ", ncFile
     
     varName = str(varName)
-    
-    print varName
-    
+ 
+ 
     if LatitudeLongitude == True:
         try:
             f.variables['lat'] = f.variables['latitude']
@@ -222,6 +221,8 @@ def netcdf2PCRobjClone(ncFile,varName,dateInput,\
         except:
             pass
 
+    print f.variables['evapotranspiration']
+    
     # date
     date = dateInput
     if useDoy == "Yes": 
