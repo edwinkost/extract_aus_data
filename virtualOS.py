@@ -282,6 +282,12 @@ def netcdf2PCRobjClone(ncFile,varName,dateInput,\
                                                   
     idx = int(idx)                                                  
 
+    # check the orientation of the latitude and flip it if necessary
+    we_have_to_flip = False
+    if (f.variables['latitude'][0] < f.variables['latitude'][1]): 
+        we_have_to_flip = True
+        f.variables['latitude'][:] = np.flipud(f.variables['latitude'][:])
+
     sameClone = True
     # check whether clone and input maps have the same attributes:
     if cloneMapFileName != None:
@@ -308,6 +314,9 @@ def netcdf2PCRobjClone(ncFile,varName,dateInput,\
 
     cropData = f.variables[varName][int(idx),:,:]       # still original data
     factor = 1                          # needed in regridData2FinerGrid
+
+    # flip if necessary 
+    if we_have_to_flip: cropData = cropData[::-1,:]
 
     if sameClone == False:
         
