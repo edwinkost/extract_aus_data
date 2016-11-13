@@ -316,7 +316,7 @@ def netcdf2PCRobjClone(ncFile,varName,dateInput,\
         minX    = min(abs(lon[:] - (xULClone + 0.5*cellsizeInput))) # ; print(minX)
         xIdxSta = int(np.where(abs(lon[:] - (xULClone + 0.5*cellsizeInput)) == minX)[0])
         xIdxEnd = int(math.ceil(xIdxSta + colsClone /(cellsizeInput/cellsizeClone)))
-        minY    = min(abs(lat][:] - (yULClone - 0.5*cellsizeInput))) # ; print(minY)
+        minY    = min(abs(lat[:] - (yULClone - 0.5*cellsizeInput))) # ; print(minY)
         yIdxSta = int(np.where(abs(lat][:] - (yULClone - 0.5*cellsizeInput)) == minY)[0])
         yIdxEnd = int(math.ceil(yIdxSta + rowsClone /(cellsizeInput/cellsizeClone)))
         cropData = f.variables[varName][idx,yIdxSta:yIdxEnd,xIdxSta:xIdxEnd]
