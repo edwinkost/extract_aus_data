@@ -221,8 +221,7 @@ def netcdf2PCRobjClone(ncFile,varName,dateInput,\
         except:
             pass
 
-    print f.variables['evapotranspiration']
-    
+
     # date
     date = dateInput
     if useDoy == "Yes": 
