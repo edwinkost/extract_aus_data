@@ -41,9 +41,12 @@ class CalcFramework(DynamicModel):
         # - make sure that it has a good projection system
         cmd = 'mapattr -s -P yb2t catchment.map'
         print(cmd); os.system(cmd)
+        # - copy catchment.map to the output folder
+        cmd = 'cp catchment.map ' + self.output_files['folder'] 
+        print(cmd); os.system(cmd)
         # - set it as the clone and set it as the catchment map
         self.clone_map_file = "catchment.map"
-        pcr.setclone(self.clone_map_file)
+        pcr.setclone(self.output_files['folder']  + "/" + self.clone_map_file)
         # - and set it as the catchment and landmask maps
         self.catchment = pcr.readmap("catchment.map")
         self.landmask  = pcr.defined(self.catchment)
