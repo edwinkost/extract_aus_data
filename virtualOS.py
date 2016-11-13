@@ -284,9 +284,9 @@ def netcdf2PCRobjClone(ncFile,varName,dateInput,\
 
     # check the orientation of the latitude and flip it if necessary
     we_have_to_flip = False
-    if (f.variables['latitude'][0] < f.variables['latitude'][1]): 
+    if (f.variables['lat'][0] < f.variables['lat'][1]): 
         we_have_to_flip = True
-        f.variables['latitude'][:] = np.flipud(f.variables['latitude'][:])
+        f.variables['lat'][:] = np.flipud(f.variables['lat'])
 
     sameClone = True
     # check whether clone and input maps have the same attributes:
