@@ -90,8 +90,8 @@ class CalcFramework(DynamicModel):
         
         print self.runoff
         
-        pcr.report("tmp.map", self.runoff)
-        cmd = 'aguila tmp.map'
+        pcr.report("tmp1.map", self.runoff)
+        cmd = 'aguila tmp1.map'
         os.system(cmd)
         
         # convert runoff to m3/day
