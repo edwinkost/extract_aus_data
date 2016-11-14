@@ -83,7 +83,7 @@ class CalcFramework(DynamicModel):
         # average runoff (mm/day) within the catchment 
         average_runoff_within_the_catchment =  vos.getMapTotal(self.runoff) / (1000. * self.catchment_area)
         
-        print_to_screen = 'Average runoff within the catchment (mm/day) for the date'  + str(self.modelTime.fulldate) + " : " + str(average_runoff_within_the_catchment) 
+        print_to_screen = 'Average runoff within the catchment (mm/day) for the date '  + str(self.modelTime.fulldate) + " : " + str(average_runoff_within_the_catchment) 
         print(print_to_screen)
 
         # write it to a txt file
