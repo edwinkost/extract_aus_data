@@ -42,7 +42,7 @@ input_files["netcdf_runoff"]["variable_name"] = "Runoff"
 
 # start and end dates (based on input netcdf files)
 startDate     = "1979-01-01"
-endDate       = "2012-12-31" 
+endDate       = "1979-12-31" 
 
 # prepare output folder
 try:
