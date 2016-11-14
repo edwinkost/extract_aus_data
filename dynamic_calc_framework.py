@@ -25,7 +25,7 @@ class CalcFramework(DynamicModel):
         self.output_files = output_files
         
         # txt output file
-        self.txt_out_file = open(self.output_files, 'w')
+        self.txt_out_file = open(self.output_files['output_txt_file'], 'w')
         
         # use cell area as the clone map
         self.clone_map_file = self.input_files["cellarea_0.05deg_file"]
