@@ -24,6 +24,9 @@ class CalcFramework(DynamicModel):
         self.input_files  = input_files
         self.output_files = output_files
         
+        # txt output file
+        self.txt_out_file = open(self.output_files, 'w')
+        
         # use cell area as the clone map
         self.clone_map_file = self.input_files["cellarea_0.05deg_file"]
         pcr.setclone( self.clone_map_file)
@@ -35,9 +38,18 @@ class CalcFramework(DynamicModel):
         # change working directory to the temporary output folder
         os.chdir(self.output_files['tmp_output_folder'])
         
+        print_to_screen = 'The input catchment tif file : ' + str(self.input_files["tif_catchment_file"]) + " \n" 
+        print(print_to_screen)
+        # - also write to a file
+        self.txt_out_file.write(print_to_screen)
+
         # resample tif to the extent of the clone  
-        input_tif_file    = self.input_files["tif_catchment_file"]
-        cmd = 'gdalwarp -te 112 -44 155 -10 ' + input_tif_file + " tmp.tif" 
+        input_tif_file     = self.input_files["tif_catchment_file"]
+        corner_coordinates = str(self.x_min) + " " +\
+                             str(self.y_min) + " " +\
+                             str(self.x_max) + " " +\
+                             str(self.y_max) + " "
+        cmd = 'gdalwarp -te ' + corner_coordinates + input_tif_file + " tmp.tif" 
         print(cmd); os.system(cmd)
         # - convert to a pcraster map 
         cmd = 'pcrcalc catchment.map = "nominal(tmp.tif)"'
@@ -54,9 +66,11 @@ class CalcFramework(DynamicModel):
         #~ pcr.aguila(catchment_area_map)
         self.catchment_area = vos.getMapTotal(catchment_area_map)       # unit: m2
         
-        print_to_screen = 'The catchment area is (m2): ' + str(self.catchment_area) 
+        print_to_screen = 'The catchment area is (m2): ' + str(self.catchment_area) + " \n"
         print(print_to_screen)
-        
+        # - also write to a file
+        self.txt_out_file.write(print_to_screen)
+
         # time variable/object
         self.modelTime = modelTime
         
@@ -83,7 +97,9 @@ class CalcFramework(DynamicModel):
         # average runoff (mm/day) within the catchment 
         average_runoff_within_the_catchment =  vos.getMapTotal(self.runoff) / (1000. * self.catchment_area)
         
-        print_to_screen = 'Average runoff within the catchment (mm/day) for the date '  + str(self.modelTime.fulldate) + " : " + str(average_runoff_within_the_catchment) 
+        print_to_screen = 'Average runoff within the catchment (mm/day) for the date '  + str(self.modelTime.fulldate) + " : " + str(average_runoff_within_the_catchment) + " \n"
         print(print_to_screen)
+        # - also write to a file
+        self.txt_out_file.write(print_to_screen)
 
-        # write it to a txt file
+        
