@@ -37,7 +37,7 @@ class CalcFramework(DynamicModel):
         
         # resample tif to the extent of the clone  
         input_tif_file    = self.input_files["tif_catchment_file"]
-        cmd = 'gdalwarp -te 122 -44 155 -10 ' + input_tif_file + " tmp.tif" 
+        cmd = 'gdalwarp -te 112 -44 155 -10 ' + input_tif_file + " tmp.tif" 
         print(cmd); os.system(cmd)
         # - convert to a pcraster map 
         cmd = 'pcrcalc catchment.map = "nominal(tmp.tif)"'
