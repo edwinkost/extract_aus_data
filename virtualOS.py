@@ -274,7 +274,7 @@ def netcdf2PCRobjClone(ncFile,varName,dateInput,\
     we_have_to_flip = False
     if (lat[0] < lat[1]): 
         we_have_to_flip = True
-        lat[:] = lat[::-1]
+        lat = lat[::-1]
 
     sameClone = True
     # check whether clone and input maps have the same attributes:

@@ -54,7 +54,7 @@ class CalcFramework(DynamicModel):
         #~ pcr.aguila(catchment_area_map)
         self.catchment_area = vos.getMapTotal(catchment_area_map)       # unit: m2
         
-        print_to_screen = 'The catchment area is (m2):' + str(self.catchment_area) 
+        print_to_screen = 'The catchment area is (m2): ' + str(self.catchment_area) 
         print(print_to_screen)
         
         # time variable/object
