@@ -9,7 +9,6 @@ import calendar
 import pcraster as pcr
 from pcraster.framework import DynamicModel
 
-from outputNetcdf import OutputNetcdf
 import virtualOS as vos
 
 import logging
