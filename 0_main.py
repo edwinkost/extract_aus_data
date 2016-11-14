@@ -39,8 +39,6 @@ input_files["netcdf_runoff"]                  = {}
 # - netcdf input file for runoff
 input_files["netcdf_runoff"]["file_name"]     = "/scratch/edwin/test_for_nils/general_data/e2o_univu_wrr1_glob30_day_Runoff_1979.nc"    # unit: kg m-2 s-1
 input_files["netcdf_runoff"]["variable_name"] = "Runoff"
-# - cell area (unit: m2) for every 0.05 arc-degree
-input_files["cellarea_0.05deg_file"]          = "/scratch/edwin/test_for_nils/general_data/australia_cellsize0.05deg.map"	            # unit: m2 
 
 # start and end dates (based on input netcdf files)
 startDate     = "1979-01-01"
@@ -69,6 +67,10 @@ def main():
     modelTime = ModelTime() # timeStep info: year, month, day, doy, hour, etc
     modelTime.getStartEndTimeSteps(startDate, endDate)
     
+    # - cell area (unit: m2) for every 0.05 arc-degree
+    input_files["cellarea_0.05deg_file"] = "australia_cellsize0.05deg.map"	                         # unit: m2
+    input_files["cellarea_0.05deg_file"] = os.path.abspath(input_files["cellarea_0.05deg_file"])
+
     # modeling framework
     calculationModel = CalcFramework(modelTime,\
                                      input_files, \

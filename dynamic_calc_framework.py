@@ -22,16 +22,21 @@ class CalcFramework(DynamicModel):
                        output_files):
         DynamicModel.__init__(self)
         
-
         self.input_files  = input_files
         self.output_files = output_files
         
-        #~ # use temporary folder as the working folder
-        tmp_output_folder = self.output_files['tmp_output_folder']
-        #~ os.chdir(output_files['tmp_output_folder'])
+        # use cell area as the clone map
+        self.clone_map_file = self.input_files["cellarea_0.05deg_file"]
+        pcr.setclone( self.clone_map_file)
+        self.x_min = pcr.clone().west()
+        self.y_min = pcr.clone().north() - pcr.clone().nrRows() * pcr.clone().cellSize()
+        self.x_max = pcr.clone().west()  + pcr.clone().nrCols() * pcr.clone().cellSize() 
+        self.y_max = pcr.clone().north()
+
+        # change working directory to the temporary output folder
+        os.chdir(self.output_files['tmp_output_folder')
         
-        # set the clone map and set the catchment area
-        # - resample tif to the extent of Australia region  
+        # resample tif to the extent of the clone  
         input_tif_file    = self.input_files["tif_catchment_file"]
         cmd = 'gdalwarp -te 122 -44 155 -10 ' + input_tif_file + " tmp.tif" 
         print(cmd); os.system(cmd)
@@ -40,33 +45,21 @@ class CalcFramework(DynamicModel):
         print(cmd); os.system(cmd)
         # - make sure that it has a good projection system
         cmd = 'mapattr -s -P yb2t catchment.map'
-        print(cmd); os.system(cmd)
-        # - copy catchment.map to the output folder
-        cmd = 'cp catchment.map ' + self.output_files['folder'] 
-        print(cmd); os.system(cmd)
-        # - set it as the clone and set it as the catchment map
-        self.clone_map_file = self.output_files['folder']  + "/" + "catchment.map"
-        pcr.setclone( self.clone_map_file)
-        # - and set it as the catchment and landmask maps
+        # - set it as the catchment and landmask maps
         self.catchment = pcr.readmap("catchment.map")
         self.landmask  = pcr.defined(self.catchment)
-        # - remove tif file
-        cmd = 'rm -r tmp.tif'
         
         # calculate catchment area (m2)
-        print self.input_files['cellarea_0.05deg_file']
-        self.cell_area      = vos.readPCRmapClone(self.input_files['cellarea_0.05deg_file'], self.clone_map_file, tmp_output_folder)
+        self.cell_area      = vos.readPCRmapClone(self.input_files['cellarea_0.05deg_file'], self.clone_map_file, self.output_files['tmp_output_folder')
         catchment_area_map  = pcr.ifthen(self.landmask, self.cell_area)
-        #~ pcr.aguila(catchment_area_map)
+        pcr.aguila(catchment_area_map)
         self.catchment_area = vos.getMapTotal(catchment_area_map)       # unit: m2
         
-        
-        print self.catchment_area
+        print_to_screen = 'The catchment area is (m2):' + self.catchment_area 
+        print(print_to_screen)
         
         # time variable/object
         self.modelTime = modelTime
-        
-        # output files
         
     def initial(self): 
         pass
@@ -77,11 +70,6 @@ class CalcFramework(DynamicModel):
         self.modelTime.update(self.currentTimeStep())
 
         # runoff (from netcdf files, unit: kg m-2 s-1)
-        
-        print self.input_files["netcdf_runoff"]["file_name"]
-        print self.input_files["netcdf_runoff"]['variable_name']
-        
-        
         self.runoff = vos.netcdf2PCRobjClone(self.input_files["netcdf_runoff"]["file_name"], \
                                              self.input_files["netcdf_runoff"]['variable_name'], \
                                              str(self.modelTime.fulldate), \
@@ -90,19 +78,13 @@ class CalcFramework(DynamicModel):
         # - use runoff value only within the catchment 
         self.runoff = pcr.ifthen(self.landmask, self.runoff)
         
-        print self.runoff
-        
-        #~ pcr.report(self.runoff, "tmp1.map")
-        #~ cmd = 'aguila tmp1.map'
-        #~ os.system(cmd)
-        
         # convert runoff to m3/day and direction 
         self.runoff = self.runoff * 1000. * self.cell_area * 86400. * -1.0
         
         # average runoff (mm/day) within the catchment 
         average_runoff_within_the_catchment =  vos.getMapTotal(self.runoff) / (1000. * self.catchment_area)
         
+        print_to_screen = 'Average runoff within the catchment (mm/day) for the date'  + str(self.modelTime.fulldate) + " : " + str(average_runoff_within_the_catchment) 
+        print(print_to_screen)
+
         # write it to a txt file
-        print average_runoff_within_the_catchment
-        print average_runoff_within_the_catchment
-        print average_runoff_within_the_catchment
