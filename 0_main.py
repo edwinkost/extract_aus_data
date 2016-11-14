@@ -31,13 +31,13 @@ output_files['output_txt_file'] = output_files['folder'] + "003303.txt"
 # input
 input_files = {}
 # - input folder where you store tif file 
-input_files["folder"]                         = "/scratch/edwin/test_for_nils/data_from_nils/"
+input_files["folder"]                         = "/scratch/edwin/for_nils/data_from_nils/"
 input_files["tif_catchment_file"]             = input_files["folder"] + "stID_003303.tif"
 
 # general input data                          
 input_files["netcdf_runoff"]                  = {}
 # - netcdf input file for runoff
-input_files["netcdf_runoff"]["file_name"]     = "/scratch/edwin/test_for_nils/general_data/e2o_univu_wrr1_glob30_day_Runoff_1979.nc"    # unit: kg m-2 s-1
+input_files["netcdf_runoff"]["file_name"]     = "/scratch/edwin/for_nils/general_data/e2o_univu_wrr1_glob30_day_Runoff_1979.nc"    # unit: kg m-2 s-1
 input_files["netcdf_runoff"]["variable_name"] = "Runoff"
 
 # start and end dates (based on input netcdf files)
