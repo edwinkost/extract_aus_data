@@ -34,7 +34,7 @@ class CalcFramework(DynamicModel):
         self.y_max = pcr.clone().north()
 
         # change working directory to the temporary output folder
-        os.chdir(self.output_files['tmp_output_folder')
+        os.chdir(self.output_files['tmp_output_folder'])
         
         # resample tif to the extent of the clone  
         input_tif_file    = self.input_files["tif_catchment_file"]
