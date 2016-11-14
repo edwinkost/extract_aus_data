@@ -50,7 +50,7 @@ class CalcFramework(DynamicModel):
         self.landmask  = pcr.defined(self.catchment)
         
         # calculate catchment area (m2)
-        self.cell_area      = vos.readPCRmapClone(self.input_files['cellarea_0.05deg_file'], self.clone_map_file, self.output_files['tmp_output_folder')
+        self.cell_area      = vos.readPCRmapClone(self.input_files['cellarea_0.05deg_file'], self.clone_map_file, self.output_files['tmp_output_folder'])
         catchment_area_map  = pcr.ifthen(self.landmask, self.cell_area)
         pcr.aguila(catchment_area_map)
         self.catchment_area = vos.getMapTotal(catchment_area_map)       # unit: m2
